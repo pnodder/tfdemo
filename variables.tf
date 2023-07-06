@@ -10,6 +10,11 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
+variable "aws_profile" {
+  description = "AWS profile for all resources."
+  type        = string
+}
+
 variable "s3_bucket_prefix" {
   description = "S3 bucket prefix for lambda code"
   type        = string
