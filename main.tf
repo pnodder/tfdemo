@@ -26,3 +26,10 @@ provider "aws" {
   profile = "sd"
   region  = var.aws_region
 }
+
+module "lambda" {
+  source           = "./modules/lambda"
+  s3_bucket_prefix = "tfdemo"
+  name             = "tfdemo-lambda"
+  log_retention    = 3
+}

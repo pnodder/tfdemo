@@ -1,22 +1,19 @@
-# Group related resources together
+# Reusable lambda module
 data "archive_file" "lambda_zip" {
   type = "zip"
-
   source_dir  = "${path.module}/src/get"
   output_path = "${path.module}/get.zip"
 }
 
 resource "aws_s3_object" "lambda_app" {
   bucket = aws_s3_bucket.lambda_bucket.id
-
   key    = "get.zip"
   source = data.archive_file.lambda_zip.output_path
-
   etag = filemd5(data.archive_file.lambda_zip.output_path)
 }
 
 resource "aws_lambda_function" "app" {
-  function_name = var.lambda_name
+  function_name = var.name
   description   = "apigwy-http-api serverlessland pattern"
 
   s3_bucket = aws_s3_bucket.lambda_bucket.id
@@ -32,7 +29,7 @@ resource "aws_lambda_function" "app" {
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log" {
-  name              = "/aws/lambda/${var.lambda_name}"
+  name              = "/aws/lambda/${var.name}"
   retention_in_days = 30
 }
 
