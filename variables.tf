@@ -6,7 +6,9 @@
 # the calling module should pass values in the module block.
 variable "aws_region" {
   description = "AWS region for all resources."
+  # tf supports other data types like list, set, object etc
   type        = string
+  # if default is provided the variable is optional, else it is required
   default     = "eu-west-1"
 }
 
@@ -25,6 +27,11 @@ variable "lambda_name" {
   description = "name of lambda function"
   type        = string
   default     = "tfdemo-get"
+  # supports input validation
+  validation {
+    condition     = length(var.lambda_name) > 3
+    error_message = "lambda name must be > 3 chars"
+  }
 }
 
 variable "lambda_log_retention" {

@@ -27,7 +27,21 @@ provider "aws" {
   region  = var.aws_region
 }
 
+# local variables
+locals {
+  bucket_names = toset(["tfdemo1", "tfdemo2"])
+}
+
 # Each resource block describes one or more infrastructure objects
+resource "aws_s3_bucket" "empty_bucket" {
+  # create resources conditionally based on other variable
+#  count = len(local.bucket_names)
+  for_each = local.bucket_names
+  # lots of built in functions
+  bucket_prefix = join("-", [each.key, "bucket"])
+  force_destroy = true
+}
+
 resource "aws_s3_bucket" "lambda_bucket" {
   bucket_prefix = "tfdemo"
   force_destroy = true
