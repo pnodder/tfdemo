@@ -23,6 +23,6 @@ terraform {
 }
 
 provider "aws" {
-  profile = "sd"
+  profile = var.aws_profile
   region  = var.aws_region
 }
